@@ -1,4 +1,5 @@
 from pico2d import *
+import math
 open_canvas()
 os.chdir('D:/')
 os.chdir('2D게임프로그래밍')
@@ -12,7 +13,8 @@ x=0
 y=90
 frame=0
 count=0
-while(count<2):
+while(True):
+    angle=0
     if(count==0):
         while(x<750):
             clear_canvas()
@@ -21,7 +23,7 @@ while(count<2):
             update_canvas()
             frame=(frame+1)%8
             x+=5
-            delay(0.05)
+            delay(0.01)
             get_events()
         while(y<550):
             clear_canvas()
@@ -30,7 +32,7 @@ while(count<2):
             update_canvas()
             frame=(frame+1)%8
             y+=5
-            delay(0.05)
+            delay(0.01)
             get_events()
         while(x>20):
             clear_canvas()
@@ -39,7 +41,7 @@ while(count<2):
             update_canvas()
             frame=(frame+1)%8
             x-=5
-            delay(0.05)
+            delay(0.01)
             get_events()
         while(y>90):
             clear_canvas()
@@ -48,7 +50,7 @@ while(count<2):
             update_canvas()
             frame=(frame+1)%8
             y-=5
-            delay(0.05)
+            delay(0.01)
             get_events()
         while(x<375):
             clear_canvas()
@@ -57,49 +59,20 @@ while(count<2):
             update_canvas()
             frame=(frame+1)%8
             x+=5
-            delay(0.05)
+            delay(0.01)
             get_events()
         count=1
-    if(count==1):
-        while(x<750 and y<300):
+    if(count==1):        
+        while(angle<6.28):
             clear_canvas()
             grass.draw(400,30)
             character.clip_draw(frame*100,0,100,100,x,y)
             update_canvas()
             frame=(frame+1)%8
-            y+=8
-            x+=10
-            delay(0.05)
+            x=400+(math.sin(angle)*250)
+            y=340-(math.cos(angle)*250)
+            angle+=0.01
+            delay(0.01)
             get_events()
-        while(x>375 and y<600):
-            clear_canvas()
-            grass.draw(400,30)
-            character.clip_draw(frame*100,0,100,100,x,y)
-            update_canvas()
-            frame=(frame+1)%8
-            y+=8
-            x-=10
-            delay(0.05)
-            get_events()
-        while(x>0 and y>300):
-            clear_canvas()
-            grass.draw(400,30)
-            character.clip_draw(frame*100,0,100,100,x,y)
-            update_canvas()
-            frame=(frame+1)%8
-            y-=8
-            x-=10
-            delay(0.05)
-            get_events()
-        while(x<375 and y>90):
-            clear_canvas()
-            grass.draw(400,30)
-            character.clip_draw(frame*100,0,100,100,x,y)
-            update_canvas()
-            frame=(frame+1)%8
-            y-=8
-            x+=10
-            delay(0.05)
-            get_events()            
-        count=0                 
+        count=0            
 
