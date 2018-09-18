@@ -5,7 +5,7 @@ os.chdir('2D게임프로그래밍')
 os.chdir('solutionmg')
 os.chdir('hw_0914')
 grass=load_image('grass.png')
-character=load_image('character.png')
+character=load_image('character_move.png')
 grass.draw_now(400,30)
 character.draw_now(400,90)
 x=0
@@ -19,7 +19,7 @@ while(count<2):
             grass.draw(400,30)
             character.clip_draw(frame*100,0,100,100,x,y)
             update_canvas()
-            frame=(frame+1)%20
+            frame=(frame+1)%8
             x+=5
             delay(0.05)
             get_events()
