@@ -1,10 +1,6 @@
 from pico2d import *
 import math
 open_canvas()
-os.chdir('D:/')
-os.chdir('2D게임프로그래밍')
-os.chdir('solutionmg')
-os.chdir('hw_0914')
 grass=load_image('grass.png')
 character=load_image('character_move.png')
 grass.draw_now(400,30)
