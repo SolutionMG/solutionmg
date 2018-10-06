@@ -11,19 +11,23 @@ class Grass:
         self.image.draw(400, 30)
 
 class Boy:
+    image = None
     def __init__(self):
         print("Creating..")
         self.x = random.randint(0, 200)
         self.y = random.randint(90, 550)
         self.speed = random.uniform(1.0, 3.0)
         self.frame = random.randint(0, 7)
+        self.state=3
+        # 0 - 왼쪽으로 달리기 1 - 오른쪽으로 달리기 2 -왼쪽보며 서있기 3 - 오른쪽 보며 서있기
+        if Boy.image==None:
+            Boy.image=load_image('animation_sheet.png')
         self.waypoints = []
-        self.image = load_image('run_animation.png')
         self.wp = load_image('wp.png')
     def draw(self):
         for wp in self.waypoints:
              self.wp.draw(wp[0], wp[1])
-        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+        Boy.image.clip_draw(self.frame * 100, self.state*100, 100, 100, self.x, self.y)
     def update(self):
         self.frame = (self.frame + 1) % 8
         if len(self.waypoints) > 0:
@@ -38,6 +42,15 @@ class Boy:
                 if dx > 0 and self.x > tx: self.x = tx
                 if dy < 0 and self.y < ty: self.y = ty
                 if dy > 0 and self.y > ty: self.y = ty
+
+                if (tx > self.x):
+                    self.state = 1
+                    if (tx == self.x):
+                        self.state = 2
+                elif (tx < self.x):
+                    self.state = 0
+                    if (tx == self.x):
+                        self.state = 3
 
                 if (tx, ty) == (self.x, self.y):
                     del self.waypoints[0]
@@ -67,10 +80,12 @@ def handle_events():
              else:
                  for b in boys:
                      b.waypoints = []
+                     b.state+=2
+
 def enter():
     global boys, grass
 
-    boys = [Boy() for i in range(10)]
+    boys = [Boy() for i in range(1000)]
     grass = Grass()
 
   # def main():
