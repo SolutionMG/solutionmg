@@ -36,11 +36,8 @@ class TestGameState:
     def draw(self):
         print("State [%s] draw" % self.name)
 
-
-
 running = None
 stack = None
-
 
 def change_state(state):
     global stack
