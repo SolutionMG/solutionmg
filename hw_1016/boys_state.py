@@ -82,33 +82,25 @@ def handle_events():
                  for b in boys:
                      b.waypoints = []
                      b.state+=2
-
 def enter():
-    global boys, grass
+    global grass
+    global boys
+    global way
 
     boys = []
-    fh= open('boys_data.json')
-    data=json.load(fh)
+    fh = open('boys_data.json')
+    data = json.load(fh)
     for e in data['boys']:
-        e['name']
-        e['x']
-        e['y']
-        e['speed']
-        b.speed=e['speed']
+        b = Boy()
+        b.name = e['name']
+        b.x = e['x']
+        b.y = e['y']
+        b.speed = e['speed']
         boys.append(b)
-    #boys=[Boy() for i in range(5)]
+
     grass = Grass()
-
-  # def main():
-#    global running
-#    enter()
-#    while running:
-#       handle_events()
-#       print(running)
-#       update()
-#       draw()
-#  exit()
-
+    way = [0, 0]
+    
 def draw():
     global grass, boys
     clear_canvas()
