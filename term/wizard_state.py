@@ -5,6 +5,7 @@ import random
 import threading
 
 score = 0
+obsRed = None
 
 class Back:  #배경그려주는 class
     def __init__(self):
@@ -14,7 +15,6 @@ class Back:  #배경그려주는 class
          self.image.draw(400,0)
 
 class Wizard: #마법사 class
-
     def __init__(self):
         global state, count
         global collapse, life, wx, wy
@@ -39,7 +39,7 @@ class Wizard: #마법사 class
         LifeImage.draw_now(150,550)
 
     def update(self):
-        global state, count, wx
+        global state, count, wx, wy, rx,ry,life
         self.frame=(self.frame + 1) % 8
         if state == 0: #왼쪽
             if count<200 and wx > 200:
@@ -51,27 +51,33 @@ class Wizard: #마법사 class
             if count<200 and wx < 600:
                 wx += 20
                 count += 20
-            if(count == 200):
+            if count == 200:
                 state = 2
         if state == 2:
             count = 0
-        delay(0.05)
+        if (wx>rx-5 and wx<rx+5 )and (wy>ry-50 and wy<ry)   :
+            life-=1
 
+        delay(0.05)
 class Obstaclered:
-    global life, collapse
     def __init__(self):
         print("Obstacles..")
-        self.speed = 5
+        global rx
+        global ry
+        global life, collapse, weight
+        weight=1
         self.frame = 0
-        self.x=random.randint(1,3)*200
-        self.y=600
+        self.speed=5
         self.image=load_image('redsprite.png')
+        rx=random.randint(1,3)*200
+        ry=600
     def draw(self):
-        self.image.clip_draw(self.frame*150,0,150,150,self.x,self.y)
+        self.image.clip_draw(self.frame*150,0,150,150,rx,ry)
     def update(self):
+        global weight, ry
         self.frame=(self.frame+1) % 4
-        if(self.y>-150):
-            self.y-=self.speed
+        ry-=self.speed*weight
+        delay(0.01)
 
 def handle_events(): #특수 버튼
     global wizards
@@ -108,16 +114,21 @@ def update():
     global obsRed
     obsRed.update()
     wizards.update()
-
 #fill here
-def scoreTimer():
-    global score, scoretime
-    score+=1
-    scoretime = threading.Timer(1, scoreTimer)
-    scoretime.start()
+#def scoreTimer():
+#    global score, scoretime
+#    score=0
+#    score+=1
+#    scoretime = threading.Timer(1, scoreTimer)
+#    scoretime.start()
     #scoretime.cancel() -> kill타이머
 
-
+#def weightTimer():
+#    global weight, weighttime
+#    weight+=0.1
+#    weighttime=threading.Timer(1, weightTimer)
+#    weighttime.start()
+#weightTimer()
 def exit():
     pass
 
