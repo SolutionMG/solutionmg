@@ -1,8 +1,13 @@
 from pico2d import*
-import ObstacleRed
+import FlyScence
+
+# red = ObstacleRed.Obstaclered()
+
+
 
 class Wizard: #마법사 class
     image=None
+
     def __init__(self):
         if Wizard.image==None:
             Wizard.image = load_image('Wizard.png')
@@ -37,7 +42,6 @@ class Wizard: #마법사 class
                 self.count = 0
             self.time = 0
 
-
-        if (self.wx>ObstacleRed.rx-5 and self.wx<ObstacleRed.rx+5 )and (self.wy>ObstacleRed.ry-50 and self.wy<ObstacleRed.ry)   :
+        if (self.wx>FlyScence.obsRed.rx-5 and self.wx<FlyScence.obsRed.rx+5 )and (self.wy>FlyScence.obsRed .ry-50 and self.wy<FlyScence.obsRed.ry)   :
             self.life-=1
 

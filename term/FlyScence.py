@@ -40,15 +40,15 @@ def draw():
     obsRed.draw()
     if (wizards.life == 3):
         LifeImage = load_image('LIFEx3.png')
-        LifeImage.draw_now(150, 550)
+        LifeImage.draw(150, 550)
 
     elif (wizards.life == 2):
         LifeImage = load_image('LIFEx2.png')
-        LifeImage.draw_now(150, 550)
+        LifeImage.draw(150, 550)
 
     elif(wizards.life==1):
         LifeImage = load_image('LIFEx1.png')
-        LifeImage.draw_now(150, 550)
+        LifeImage.draw(150, 550)
     else:
         pass
     update_canvas()
