@@ -52,8 +52,6 @@ def push_state(state):
     stack.append(state)
     state.enter()
 
-
-
 def pop_state():
     global stack
     if (len(stack) > 0):
