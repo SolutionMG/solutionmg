@@ -20,10 +20,11 @@ def handle_events(): #특수 버튼
         elif e.type == SDL_KEYDOWN:
             if e.key == SDLK_ESCAPE:
                 game_framework.pop_state()
-            if e.key == SDLK_LEFT:
-                wizards.state = 0
-            if e.key == SDLK_RIGHT:
-                wizards.state = 1
+            if (wizards.count == 0):
+                    if e.key == SDLK_LEFT:
+                        wizards.state = 0
+                    if e.key == SDLK_RIGHT:
+                        wizards.state = 1
 
 
 def enter():
@@ -49,6 +50,7 @@ def draw():
     elif(wizards.life==1):
         LifeImage = load_image('LIFEx1.png')
         LifeImage.draw(150, 550)
+
     else:
         pass
     update_canvas()
@@ -67,12 +69,6 @@ def update():
 #    scoretime.start()
     #scoretime.cancel() -> kill타이머
 
-#def weightTimer():
-#    global weight, weighttime
-#    weight+=0.1
-#    weighttime=threading.Timer(1, weightTimer)
-#    weighttime.start()
-#weightTimer()
 def exit():
     pass
 

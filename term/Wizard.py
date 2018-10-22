@@ -19,6 +19,9 @@ class Wizard: #마법사 class
         self.frame=0
         self.life = 3
         self.time = 0
+        self.super= 0
+        self.lifetime=0
+        self.lifecheck=False
 
     def draw(self):
         self.image.clip_draw(self.frame*100,0,100,100,self.wx,self.wy)
@@ -26,22 +29,42 @@ class Wizard: #마법사 class
 
     def update(self):
         self.time += 1
-        if self.time > 3:
+        if self.time > 15:
             self.frame=(self.frame + 1) % 8
-            if self.state == 0: #왼쪽
-                self.wx -= 20
-                self.count += 20
-                if self.count >= 200:
-                    self.state = 2
-            elif self.state == 1: #오#른쪽
-                self.wx += 20
-                self.count += 20
-                if self.count >= 200:
-                    self.state = 2
-            elif self.state == 2:
-                self.count = 0
             self.time = 0
 
-        if (self.wx>FlyScence.obsRed.rx-5 and self.wx<FlyScence.obsRed.rx+5 )and (self.wy>FlyScence.obsRed .ry-50 and self.wy<FlyScence.obsRed.ry)   :
-            self.life-=1
+        if self.state == 0 and self.count == 0:
+            self.super = 1
+        elif self.state == 1 and self.count == 0:
+            self.super = 2
+        if self.state == 0 and self.super == 1 and self.wx > 200:  # 왼쪽
+            self.wx -= 4
+            self.count += 4
+            if self.count >= 200 or self.wx <= 200:
+                self.super = 3
+                self.state = 2
+        elif self.state == 1 and self.super == 2 and self.wx < 600:  # 오#른쪽
+            self.wx += 4
+            self.count += 4
+            if self.count >= 200 or self.wx >= 600:
+                self.state = 2
+                self.super = 3
+        elif self.state == 2:
+            self.count = 0
+            self.super = 3
+
+        if (self.wx>FlyScence.obsRed.rx-5 and self.wx<FlyScence.obsRed.rx+5 )and (self.wy>FlyScence.obsRed .ry-50 and self.wy<FlyScence.obsRed.ry):
+            if self.lifecheck == False:
+                self.lifecheck = True
+                self.life -= 1
+            elif self.lifecheck == True:
+                pass
+
+        if self.lifecheck == True:
+            self.lifetime += 1
+            if(self.lifetime > 150):
+                self.lifecheck=False
+                self.lifetime = 0
+
+            # self.lifecheck=True
 
