@@ -6,9 +6,11 @@ import threading
 import Back
 import Wizard
 import ObstacleRed
+import ObstacleBlue
 
 score = 0
 obsRed = None
+obsBlue= None
 
 def handle_events(): #특수 버튼
     global wizards
@@ -28,17 +30,18 @@ def handle_events(): #특수 버튼
 
 
 def enter():
-    global wizards, backs, obsRed
+    global wizards, backs, obsRed, obsBlue
     wizards = Wizard.Wizard()
     backs= Back.Back()
     obsRed=ObstacleRed.Obstaclered()
-
+    obsBlue=ObstacleBlue.Obstacleblue()
 def draw():
-    global backs, wizards, obsRed
+    global backs, wizards, obsRed, obsBlue
     clear_canvas()
     backs.draw()
     wizards.draw()
     obsRed.draw()
+    obsBlue.draw()
     if (wizards.life == 3):
         LifeImage = load_image('LIFEx3.png')
         LifeImage.draw(150, 550)
@@ -50,15 +53,18 @@ def draw():
     elif(wizards.life==1):
         LifeImage = load_image('LIFEx1.png')
         LifeImage.draw(150, 550)
-
+    elif(wizards.life==0):
+        LifeImage=load_image('LIFEx0.png')
+        LifeImage.dtaw(150,550)
     else:
         pass
     update_canvas()
 
 def update():
     global wizards
-    global obsRed
+    global obsRed,obsBlue
     obsRed.update()
+    obsBlue.update()
     wizards.update()
 #fill here
 #def scoreTimer():

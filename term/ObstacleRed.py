@@ -16,7 +16,7 @@ class Obstaclered:
         self.image.clip_draw(self.frame*150,0,150,150,self.rx,self.ry)
     def update(self):
         self.time+=1
-        if(self.time)>4:
+        if(self.time)>6:
             self.frame=(self.frame+1) % 4
             self.time=0
 
