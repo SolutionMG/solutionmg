@@ -33,17 +33,18 @@ class Wizard: #마법사 class
             self.frame=(self.frame + 1) % 8
             self.time = 0
 
-        if self.state == 0 and self.count == 0:
+        if self.state == 0 and self.count == 0: #super - 움직이는 동안 다른 키입력 무시
             self.super = 1
         elif self.state == 1 and self.count == 0:
             self.super = 2
+
         if self.state == 0 and self.super == 1 and self.wx > 200:  # 왼쪽
             self.wx -= 4
             self.count += 4
             if self.count >= 200 or self.wx <= 200:
                 self.super = 3
                 self.state = 2
-        elif self.state == 1 and self.super == 2 and self.wx < 600:  # 오#른쪽
+        elif self.state == 1 and self.super == 2 and self.wx < 600:  # 오른쪽
             self.wx += 4
             self.count += 4
             if self.count >= 200 or self.wx >= 600:
@@ -53,12 +54,19 @@ class Wizard: #마법사 class
             self.count = 0
             self.super = 3
 
-        if (self.wx>FlyScence.obsRed.rx-5 and self.wx<FlyScence.obsRed.rx+5 )and (self.wy>FlyScence.obsRed .ry-50 and self.wy<FlyScence.obsRed.ry):
+        if (self.wx>FlyScence.obsRed.rx-5 and self.wx<FlyScence.obsRed.rx+5 )and (self.wy>FlyScence.obsRed .ry-50 and self.wy<FlyScence.obsRed.ry+50):
             if self.lifecheck == False:
                 self.lifecheck = True
                 self.life -= 1
             elif self.lifecheck == True:
                 pass
+        if(self.wx>FlyScence.obsBlue.bx-5 and self.wx<FlyScence.obsBlue.bx+5)and (self.wy>FlyScence.obsBlue.by-50 and self.wy<FlyScence.obsBlue.by+50):
+            if (self.super==1) or (self.super==2):
+                if self.lifecheck == False:
+                    self.lifecheck=True
+                    self.life -=1
+                elif self.lifecheck == True:
+                    pass
 
         if self.lifecheck == True:
             self.lifetime += 1
