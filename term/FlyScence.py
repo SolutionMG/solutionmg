@@ -7,6 +7,7 @@ import Back
 import Wizard
 import ObstacleRed
 import ObstacleBlue
+import BonusObject
 
 score = 0
 obsRed = None
@@ -30,11 +31,12 @@ def handle_events(): #특수 버튼
 
 
 def enter():
-    global wizards, backs, obsRed, obsBlue
+    global wizards, backs, obsRed, obsBlue,Bonus
     wizards = Wizard.Wizard()
     backs= Back.Back()
     obsRed=ObstacleRed.Obstaclered()
     obsBlue=ObstacleBlue.Obstacleblue()
+    Bonus=BonusObject.Bonusobject()
 def draw():
     global backs, wizards, obsRed, obsBlue
     clear_canvas()
@@ -42,6 +44,7 @@ def draw():
     wizards.draw()
     obsRed.draw()
     obsBlue.draw()
+    Bonus.draw()
     if (wizards.life == 3):
         LifeImage = load_image('LIFEx3.png')
         LifeImage.draw(150, 550)
@@ -62,10 +65,11 @@ def draw():
 
 def update():
     global wizards
-    global obsRed,obsBlue
+    global obsRed,obsBlue,Bonus
     obsRed.update()
     obsBlue.update()
     wizards.update()
+    Bonus.update()
 #fill here
 #def scoreTimer():
 #    global score, scoretime
