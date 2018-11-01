@@ -1,12 +1,12 @@
 from pico2d import*
-import random
+import FlyScence
 
 class Obstaclered:
     image=None
-    def __init__(self):
+    def __init__(self, x):
         if Obstaclered.image==None:
             Obstaclered.image=load_image('redsprite.png')
-        self.rx=random.randint(1,3)*200
+        self.rx=x*200
         self.ry=600
         global life
         self.frame = 0
@@ -21,6 +21,5 @@ class Obstaclered:
 
         self. ry -= 1
         if self.ry < -10:
-            self.ry = 600
-            self.rx =random.randint(1,3)*200
+            FlyScence.obstacleManager.obstacles.remove(self)
             # ry -= self.speed * weight

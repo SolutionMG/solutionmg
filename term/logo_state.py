@@ -3,7 +3,6 @@ import game_framework
 import title_state
 import time
 
-
 def enter():
     global image, startedOn
     startedOn = time.time()

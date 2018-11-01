@@ -1,12 +1,12 @@
 from pico2d import *
-import random
+import FlyScence
 
 class Obstacleblue:
     image=None
-    def __init__(self):
+    def __init__(self, x):
         if Obstacleblue.image==None:
             Obstacleblue.image=load_image('bluesprite.png')
-        self.bx=random.randint(1,3)*200
+        self.bx=x*200
         self.by=600
         global life
         self.frame=0
@@ -20,5 +20,4 @@ class Obstacleblue:
             self.time=0
         self.by -=1
         if self.by<-10:
-            self.by=600
-            self.bx=random.randint(1,3)*200
+            FlyScence.obstacleManager.obstacles.remove(self)

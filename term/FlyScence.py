@@ -5,13 +5,10 @@ import random
 import threading
 import Back
 import Wizard
-import ObstacleRed
-import ObstacleBlue
-import BonusObject
+import ObstacleManager
 
 score = 0
-obsRed = None
-obsBlue= None
+obstacleManager = None
 
 def handle_events(): #특수 버튼
     global wizards
@@ -24,27 +21,24 @@ def handle_events(): #특수 버튼
             if e.key == SDLK_ESCAPE:
                 game_framework.pop_state()
             if (wizards.count == 0):
-                    if e.key == SDLK_LEFT:
-                        wizards.state = 0
-                    if e.key == SDLK_RIGHT:
-                        wizards.state = 1
+                if e.key == SDLK_LEFT:
+                    wizards.state = 0
+                if e.key == SDLK_RIGHT:
+                    wizards.state = 1
 
 
 def enter():
-    global wizards, backs, obsRed, obsBlue,Bonus
+    global wizards, backs, obstacleManager
     wizards = Wizard.Wizard()
     backs= Back.Back()
-    obsRed=ObstacleRed.Obstaclered()
-    obsBlue=ObstacleBlue.Obstacleblue()
-    Bonus=BonusObject.Bonusobject()
+    obstacleManager = ObstacleManager.ObstacleManager()
+
 def draw():
-    global backs, wizards, obsRed, obsBlue
+    global backs, wizards, obstacleManager
     clear_canvas()
     backs.draw()
     wizards.draw()
-    obsRed.draw()
-    obsBlue.draw()
-    Bonus.draw()
+    obstacleManager.draw()
     if (wizards.life == 3):
         LifeImage = load_image('LIFEx3.png')
         LifeImage.draw(150, 550)
@@ -64,12 +58,10 @@ def draw():
     update_canvas()
 
 def update():
-    global wizards
-    global obsRed,obsBlue,Bonus
-    obsRed.update()
-    obsBlue.update()
+    global wizards, obstacleManager
     wizards.update()
-    Bonus.update()
+    obstacleManager.update()
+
 #fill here
 #def scoreTimer():
 #    global score, scoretime
