@@ -3,23 +3,25 @@ import ObstacleRed
 import ObstacleBlue
 import BonusObject
 import random
+import Wizard
 
 # 0 empty
 # 1 red
-# 2 yellow
-# 3 blue
+# 2 blue
+# 3 yellow
 
-pattern = [(0, 0, 0), (1, 0, 0), (2, 0, 0), (3, 0, 0), (0, 0, 1), (0, 0, 2), (0, 0, 3), (1, 1, 0), (2, 0, 2), (0, 3, 3)]
+pattern = [(1, 0, 0), (2, 0, 0), (3, 0, 0),(0, 1, 0), (0, 2, 0), (0, 3, 0) ,(0, 0, 1), (0, 0, 2), (0, 0, 3), (1, 1, 0), (1, 0, 1), (0, 1, 1), (2, 1, 1), (1, 1, 2),(1, 2, 1),(2, 2, 1) , (2, 1, 2), (1, 2, 2),(2, 2, 0), (0, 2, 2), (2, 0, 2), ] #패턴 조절하기
 curPattern = None
 
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
         self.oldCreatedTime = get_time()
+        self.Downspeed=1.5
         pass
 
     def update(self):
-        if get_time() - self.oldCreatedTime > 3:
+        if get_time() - self.oldCreatedTime > self.Downspeed:
             self.oldCreatedTime = get_time()
             patternNum = random.randint(0, len(pattern) - 1)
             for i in range(0, 3):

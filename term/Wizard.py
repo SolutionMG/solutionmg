@@ -67,14 +67,14 @@ class Wizard:  # 마법사 class
 
         for i in FlyScence.obstacleManager.obstacles:
             if type(i) == ObstacleRed.Obstaclered:
-                if (self.wx > i.rx - 5 and self.wx < i.rx + 5) and (self.wy > i.ry - 50 and self.wy < i.ry + 50):
+                if (self.wx > i.rx - 5 and self.wx < i.rx + 5) and (self.wy > i.ry - 50 and self.wy < i.ry + 50): #빨간 장애물 충돌체크
                     if self.lifecheck == False:
                         self.lifecheck = True
                         self.life -= 1
                     elif self.lifecheck == True:
                         pass
             if type(i) == ObstacleBlue.Obstacleblue:
-                if (self.wx > i.bx - 5 and self.wx < i.bx + 5) and (self.wy > i.by - 50 and self.wy < i.by + 50):
+                if (self.wx > i.bx - 5 and self.wx < i.bx + 5) and (self.wy > i.by - 50 and self.wy < i.by + 50): #파란 장애물 충돌체크
                     if (self.super == 1) or (self.super == 2):
                         if self.lifecheck == False:
                             self.lifecheck = True
@@ -82,19 +82,19 @@ class Wizard:  # 마법사 class
                         elif self.lifecheck == True:
                             pass
             if type(i) == BonusObject.Bonusobject:
-                if (self.wx > i.yx - 5 and self.wx < i.yx + 5) and (self.wy > i.yy - 50 and self.wy < i.yy + 50):
+                if (self.wx > i.yx - 5 and self.wx < i.yx + 5) and (self.wy > i.yy - 50 and self.wy < i.yy + 50): # 보너스 오브젝트 충돌체크
                     self.drawscore = True
                     self.scoretime = 0
                     self.score = random.randint(2, 10)
                     self.score2 += self.score
                     FlyScence.obstacleManager.obstacles.remove(i)
 
-        if self.lifecheck == True:
+        if self.lifecheck == True: #충돌 후 잠시 무적
             self.lifetime += 1
             if (self.lifetime > 150):
                 self.lifecheck = False
                 self.lifetime = 0
-        if self.drawscore == True:
+        if self.drawscore == True:#충돌 후 점수 한번만 오르게
             self.scoretime += 1
             if (self.scoretime > 50):
                 self.drawscore = False

@@ -98,6 +98,7 @@ class Boy:
         #if len(self.event_que) > 0:
          #   event = self.event_que.pop()
           #  self.change_state(next_state_table[self.cur_state][event])
+
     def draw(self):
         self.draw_state[self.cur_state](self)
 
