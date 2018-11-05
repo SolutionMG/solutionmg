@@ -8,7 +8,6 @@ class Bonusobject:
             Bonusobject.image=load_image('yellowsprite.png')
         self.yx=x*200
         self.yy=600
-        #global score 점수를 위해 만들어야함
         self.frame=0
         self.time=0
     def draw(self):

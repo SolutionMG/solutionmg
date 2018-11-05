@@ -10,17 +10,34 @@ import Wizard
 # 2 blue
 # 3 yellow
 
-pattern = [(1, 0, 0), (2, 0, 0), (3, 0, 0),(0, 1, 0), (0, 2, 0), (0, 3, 0) ,(0, 0, 1), (0, 0, 2), (0, 0, 3), (1, 1, 0), (1, 0, 1), (0, 1, 1), (2, 1, 1), (1, 1, 2),(1, 2, 1),(2, 2, 1) , (2, 1, 2), (1, 2, 2),(2, 2, 0), (0, 2, 2), (2, 0, 2), ] #패턴 조절하기
+pattern = [(1, 0, 0), (2, 0, 0), (3, 0, 0),
+           (0, 1, 0), (0, 2, 0), (0, 3, 0),
+           (0, 0, 1), (0, 0, 2), (0, 0, 3),
+           (1, 1, 0), (1, 0, 1), (0, 1, 1), #확률 더 늘리려고 똑같은 패턴 반복
+           (1, 1, 0), (1, 0, 1), (0, 1, 1),
+           (2, 1, 1), (1, 1, 2), (1, 2, 1),
+           (2, 1, 1), (1, 1, 2), (1, 2, 1),
+           (2, 2, 1), (2, 1, 2), (1, 2, 2),
+           (2, 2, 1), (2, 1, 2), (1, 2, 2),
+           (2, 2, 3), (3, 2, 2), (2, 3, 2),
+           (1, 2, 3), (1, 3, 2), (2, 1, 3),
+           (2, 3, 1), (3, 1, 2), (3, 2, 1)] #패턴 조절하기
 curPattern = None
 
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
         self.oldCreatedTime = get_time()
-        self.Downspeed=1.5
+        self.Downspeed=2
+        self.level=0
         pass
 
     def update(self):
+        if self.Downspeed>1.0:
+            self.level+=1
+        if self.level>500:
+            self.Downspeed -= 0.1
+            self.level=0
         if get_time() - self.oldCreatedTime > self.Downspeed:
             self.oldCreatedTime = get_time()
             patternNum = random.randint(0, len(pattern) - 1)
