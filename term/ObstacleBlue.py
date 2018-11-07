@@ -1,5 +1,5 @@
 from pico2d import *
-import FlyScence
+import FlyScene
 
 class Obstacleblue:
     image=None
@@ -20,4 +20,4 @@ class Obstacleblue:
             self.time=0
         self.by -=1
         if self.by<-10:
-            FlyScence.obstacleManager.obstacles.remove(self)
+            FlyScene.obstacleManager.obstacles.remove(self)

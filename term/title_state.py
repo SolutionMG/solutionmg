@@ -1,6 +1,6 @@
 from pico2d import *
 import game_framework
-import FlyScence
+import FlyScene
 
 
 def enter():
@@ -32,7 +32,7 @@ def handle_events():
             if event.key == SDLK_ESCAPE:
                 game_framework.quit()
             elif event.key == SDLK_SPACE:
-                game_framework.push_state(FlyScence)
+                game_framework.push_state(FlyScene)
 
 
 def pause():

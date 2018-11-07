@@ -1,10 +1,10 @@
 from pico2d import *
-import FlyScence
+import FlyScene
 import BonusObject
 import ObstacleRed
 import ObstacleBlue
+import Item
 import random
-
 
 # red = ObstacleRed.Obstaclered()
 
@@ -65,7 +65,7 @@ class Wizard:  # 마법사 class
             self.count = 0
             self.super = 3
 
-        for i in FlyScence.obstacleManager.obstacles:
+        for i in FlyScene.obstacleManager.obstacles:
             if type(i) == ObstacleRed.Obstaclered:
                 if (self.wx > i.rx - 5 and self.wx < i.rx + 5) and (self.wy > i.ry - 50 and self.wy < i.ry + 50): #빨간 장애물 충돌체크
                     if self.lifecheck == False:
@@ -87,8 +87,16 @@ class Wizard:  # 마법사 class
                     self.scoretime = 0
                     self.score = random.randint(2, 10)
                     self.score2 += self.score
-                    FlyScence.obstacleManager.obstacles.remove(i)
-
+                    FlyScene.obstacleManager.obstacles.remove(i)
+            if type(i) == Item.ITEM:
+                if (self.wx>i.ix - 5 and self.wx < i.ix + 5) and (self. wx > i.iy - 30 and self.wy < i.iy + 30):
+                    if self. lifecheck == False:
+                        self.lifecheck = True
+                        if(self.life < 3):
+                            self.life +=1
+                        elif self.lifecheck == True:
+                            pass
+                        FlyScene.obstacleManager.obstacles.remove(i)
         if self.lifecheck == True: #충돌 후 잠시 무적
             self.lifetime += 1
             if (self.lifetime > 150):

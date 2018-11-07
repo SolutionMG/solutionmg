@@ -1,5 +1,5 @@
 from pico2d import*
-import FlyScence
+import FlyScene
 
 class Obstaclered:
     image=None
@@ -8,7 +8,6 @@ class Obstaclered:
             Obstaclered.image=load_image('redsprite.png')
         self.rx=x*200
         self.ry=600
-        global life
         self.frame = 0
         self.time=0
     def draw(self):
@@ -21,5 +20,5 @@ class Obstaclered:
 
         self. ry -= 1
         if self.ry < -10:
-            FlyScence.obstacleManager.obstacles.remove(self)
+            FlyScene.obstacleManager.obstacles.remove(self)
             # ry -= self.speed * weight

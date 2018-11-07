@@ -2,6 +2,7 @@ from pico2d import*
 import ObstacleRed
 import ObstacleBlue
 import BonusObject
+import Item
 import random
 import Wizard
 
@@ -9,6 +10,7 @@ import Wizard
 # 1 red
 # 2 blue
 # 3 yellow
+# 4 item
 
 pattern = [(1, 0, 0), (2, 0, 0), (3, 0, 0),
            (0, 1, 0), (0, 2, 0), (0, 3, 0),
@@ -21,6 +23,19 @@ pattern = [(1, 0, 0), (2, 0, 0), (3, 0, 0),
            (2, 2, 1), (2, 1, 2), (1, 2, 2),
            (2, 2, 3), (3, 2, 2), (2, 3, 2),
            (1, 2, 3), (1, 3, 2), (2, 1, 3),
+           (1, 0, 0), (2, 0, 0), (3, 0, 0),
+           (0, 1, 0), (0, 2, 0), (0, 3, 0),
+           (0, 0, 1), (0, 0, 2), (0, 0, 3),
+           (1, 1, 0), (1, 0, 1), (0, 1, 1), #확률 더 늘리려고 똑같은 패턴 반복
+           (1, 1, 0), (1, 0, 1), (0, 1, 1),
+           (2, 1, 1), (1, 1, 2), (1, 2, 1),
+           (2, 1, 1), (1, 1, 2), (1, 2, 1),
+           (2, 2, 1), (2, 1, 2), (1, 2, 2),
+           (2, 2, 1), (2, 1, 2), (1, 2, 2),
+           (2, 2, 3), (3, 2, 2), (2, 3, 2),
+           (1, 2, 3), (1, 3, 2), (2, 1, 3),
+           (4, 0, 0), (0, 4, 0), (0, 0, 4),
+           (2, 3, 1), (3, 1, 2), (3, 2, 1),
            (2, 3, 1), (3, 1, 2), (3, 2, 1)] #패턴 조절하기
 curPattern = None
 
@@ -48,6 +63,8 @@ class ObstacleManager:
                     self.obstacles.append(ObstacleBlue.Obstacleblue(i+1))
                 elif pattern[patternNum][i] == 3:
                     self.obstacles.append(BonusObject.Bonusobject(i+1))
+                elif pattern[patternNum][i] == 4:
+                    self.obstacles.append(Item.ITEM(i+1))
         for i in self.obstacles:
             i.update()
         pass
