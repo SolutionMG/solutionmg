@@ -48,9 +48,9 @@ class ObstacleManager:
         pass
 
     def update(self):
-        if self.Downspeed>1.0:
+        if self.Downspeed>1.1:
             self.level+=1
-        if self.level>500:
+        if self.level>1000:
             self.Downspeed -= 0.1
             self.level=0
         if get_time() - self.oldCreatedTime > self.Downspeed:
