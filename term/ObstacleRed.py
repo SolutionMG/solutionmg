@@ -21,4 +21,4 @@ class Obstaclered:
         self. ry -= 1
         if self.ry < -10:
             FlyScene.obstacleManager.obstacles.remove(self)
-            # ry -= self.speed * weight
+          

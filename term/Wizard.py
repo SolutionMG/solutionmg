@@ -73,6 +73,7 @@ class Wizard:  # 마법사 class
                         self.life -= 1
                     elif self.lifecheck == True:
                         pass
+                    FlyScene.obstacleManager.obstacles.remove(i)
             if type(i) == ObstacleBlue.Obstacleblue:
                 if (self.wx > i.bx - 5 and self.wx < i.bx + 5) and (self.wy > i.by - 50 and self.wy < i.by + 50): #파란 장애물 충돌체크
                     if (self.super == 1) or (self.super == 2):
@@ -81,6 +82,7 @@ class Wizard:  # 마법사 class
                             self.life -= 1
                         elif self.lifecheck == True:
                             pass
+                    FlyScene.obstacleManager.obstacles.remove(i)
             if type(i) == BonusObject.Bonusobject:
                 if (self.wx > i.yx - 5 and self.wx < i.yx + 5) and (self.wy > i.yy - 50 and self.wy < i.yy + 50): # 보너스 오브젝트 충돌체크
                     self.drawscore = True
@@ -89,14 +91,14 @@ class Wizard:  # 마법사 class
                     self.score2 += self.score
                     FlyScene.obstacleManager.obstacles.remove(i)
             if type(i) == Item.ITEM:
-                if (self.wx>i.ix - 5 and self.wx < i.ix + 5) and (self. wx > i.iy - 30 and self.wy < i.iy + 30):
+                if (self.wx > i.ix - 5 and self.wx < i.ix + 5) and (self. wx > i.iy -30 and self.wy < i.iy - 10):
                     if self. lifecheck == False:
                         self.lifecheck = True
                         if(self.life < 3):
-                            self.life +=1
-                        elif self.lifecheck == True:
-                            pass
-                        FlyScene.obstacleManager.obstacles.remove(i)
+                            self.life +=1      
+                    elif self.lifecheck == True:
+                        pass
+                    FlyScene.obstacleManager.obstacles.remove(i)  
         if self.lifecheck == True: #충돌 후 잠시 무적
             self.lifetime += 1
             if (self.lifetime > 150):
