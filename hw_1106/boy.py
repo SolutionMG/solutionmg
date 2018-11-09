@@ -1,117 +1,183 @@
-from pico2d import *
-import random
-import time
-
-IDLE, RUN, SLEEP = range(3)
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT = range(5)
+from pico2d import * 
+import random 
+import time 
+import game_world
+import math
+from ball import Ball
+  
+# Boy State 
+# IDLE, RUN, SLEEP = range(3) 
+  
+ 
+# Boy Event 
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, TIME_OUT, SPACE_DOWN, ENTER_DOWN = range(7) 
+  
+ 
 key_event_table = { 
-        (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
-        (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
-        (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
-        (SDL_KEYUP, SDLK_LEFT): LEFT_UP
-}
-
-next_state_table = {
-    IDLE: {RIGHT_UP: RUN, LEFT_UP: RUN, RIGHT_DOWN: RUN, LEFT_DOWN: RUN,
-           TIME_OUT: SLEEP},
-    RUN: {RIGHT_UP: IDLE, LEFT_UP: IDLE, LEFT_DOWN: IDLE, RIGHT_DOWN: IDLE},
-    SLEEP: {LEFT_DOWN: RUN, RIGHT_DOWN: RUN}
-}
-
-
+    (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN, 
+    (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN, 
+    (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP, 
+    (SDL_KEYUP, SDLK_LEFT): LEFT_UP, 
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN, 
+    (SDL_KEYDOWN, SDLK_RETURN): ENTER_DOWN, 
+} 
+  
+ 
+class IdleState: 
+    @staticmethod 
+    def enter(boy): 
+        boy.time = time.time() 
+    @staticmethod 
+    def exit(boy): 
+        pass 
+    @staticmethod 
+    def update(boy): 
+        boy.frame = (boy.frame + 1) % 8 
+        elapsed = time.time() - boy.time 
+        if elapsed > 2.0: 
+            boy.set_state(SleepState) 
+    @staticmethod 
+    def draw(boy): 
+        y = 200 if boy.dir == 0 else 300 
+        Boy.image.clip_draw(boy.frame * 100, y, 100, 100, boy.x, boy.y) 
+  
+ 
+class RunState: 
+    @staticmethod 
+    def enter(boy): 
+        boy.time = time.time() 
+    @staticmethod 
+    def exit(boy): 
+        pass 
+    @staticmethod 
+    def update(boy): 
+        elapsed = time.time() - boy.time 
+        mag = 2 if elapsed > 2.0 else 1 
+        # print(mag, elapsed) 
+        boy.frame = (boy.frame + 1) % 8 
+        boy.x = max(25, min(boy.x + mag * boy.dx, 775)) 
+    @staticmethod 
+    def draw(boy): 
+        y = 0 if boy.dir == 0 else 100 
+        Boy.image.clip_draw(boy.frame * 100, y, 100, 100, boy.x, boy.y) 
+  
+ 
+class SleepState: 
+    @staticmethod 
+    def enter(boy): 
+        boy.time = time.time() 
+    @staticmethod 
+    def exit(boy): 
+        pass 
+    @staticmethod 
+    def update(boy): 
+        boy.frame = (boy.frame + 1) % 8 
+    @staticmethod 
+    def draw(boy): 
+        if boy.dir == 1: 
+            y, mx, angle = 300, -25, 3.141592/2 
+        else: 
+            y, mx, angle = 200, +25, -3.141592/2 
+        Boy.image.clip_composite_draw(boy.frame * 100, y, 100, 100,  
+        angle, '', boy.x + mx, boy.y - 25, 100, 100) 
+  
+ 
+next_state_table = { 
+    IdleState: { RIGHT_UP: RunState,  LEFT_UP: RunState,  RIGHT_DOWN: RunState,  LEFT_DOWN: RunState, TIME_OUT: SleepState}, 
+    RunState:  { RIGHT_UP: IdleState, LEFT_UP: IdleState, RIGHT_DOWN: IdleState, LEFT_DOWN: IdleState }, 
+    SleepState: { LEFT_DOWN: RunState, RIGHT_DOWN: RunState } 
+} 
+  
+ 
 class Boy:
-    image = None
+    image = None   
+ 
     def __init__(self):
         print("Creating..")
         self.x = random.randint(0, 200)
-        self.y = random.randint(90, 550)
-        self.speed = random.uniform(1.0, 3.0)
+        # self.y = random.randint(90, 550)
+        self.y = 90
+        self.speed = random.uniform(3.0, 5.0)
         self.frame = random.randint(0, 7)
-        self.state=3
-        self.velocity=0
-        self.cur_state=0
-        self.timer=0
-        self.dir=1
-        # 0 - 왼쪽으로 달리기 1 - 오른쪽으로 달리기 2 -왼쪽보며 서있기 3 - 오른쪽 보며 서있기
-        if Boy.image==None:
-            Boy.image=load_image('animation_sheet.png')
-    def draw(self):
-        Boy.image.clip_draw(self.frame * 100, self.state*100, 100, 100, self.x, self.y)
-    def update(self):
-        self.frame = (self.frame + 1) % 8
-    def enter_IDLE(self):
-        self.timer = 100
-        self.frame = 0
-    def exit_IDLE(self):
-        pass
-    def do_IDLE(self):
-        self.frame = (self.frame + 1) % 8
-        self.timer -=1
-        if (self.timer==0):
-            self.change_state(2)
-    def draw_IDLE(self):
-        if self.dir == 1:
-            self.image.clip_draw(self.frame * 100, 300, 100, 100, self.x, self.y)
-        else:
-            self.image.clip_draw(self.frame * 100, 200, 100, 100, self.x, self.y)
-    def enter_RUN(self):
-        self.frame = 0
-        self.dir = self.velocity
-    def exit_RUN(self):
-        pass
-    def do_RUN(self):
-        self.frame = (self.frame + 1) % 8
-        self.x += self.velocity
-        self.x = clamp(25, self.x, 800-25)
-    def draw_RUN(self):
-        if self.velocity == 1:
-            self.image.clip_draw(self.frame * 100, 100, 100, 100, self.x, self.y)
-        else:
-            self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
-    def change_state(self,  state):
-        self.exit_state[self.cur_state](self)
-        self.enter_state[state](self)
-        self.cur_state = state
+        self.state = None
+        self.set_state(IdleState)
+        self.dir = 1
+        self.dx = 0
+        self.MX=0
+        self.MY=0
+        if Boy.image == None:
+            Boy.image = load_image('animation_sheet.png')
+  
+ 
+    def get_bb(self):
+        if self.state == IdleState:
+            return self.x - 15, self.y - 40, self.x + 15, self.y + 40
+        if self.state == RunState:
+            return self.x - 20, self.y - 40, self.x + 20, self.y + 40
+        if self.state == SleepState:
+            if self.dir == 1:
+                return self.x - 70, self.y - 40, self.x + 10, self.y
+            else:
+                return self.x - 10, self.y - 40, self.x + 70, self.y
 
-    def enter_SLEEP(self):
-        self.frame = 0
-
-    def exit_SLEEP(self):
-        pass
-
-    def do_SLEEP(self):
-        self.frame = (self.frame + 1) % 8
-
-    def draw_SLEEP(self):
-        if self.dir == 1:
-            self.image.clip_composite_draw(self.frame * 100, 300, 100, 100, 3.141592 / 2, '', self.x - 25, self.y - 25, 100, 100)
-        else:
-            self.image.clip_composite_draw(self.frame * 100, 200, 100, 100, 3.141592 / 2, '', self.x + 25, self.y - 25, 100, 100)
-
-    enter_state = {IDLE: enter_IDLE, RUN: enter_RUN, SLEEP: enter_SLEEP}
-    exit_state = {IDLE: exit_IDLE, RUN: exit_RUN, SLEEP: exit_SLEEP}
-    do_state = {IDLE: do_IDLE, RUN: do_RUN, SLEEP: do_SLEEP}
-    draw_state = {IDLE: draw_IDLE, RUN: draw_RUN, SLEEP: draw_SLEEP}
-
-    def update(self):
-        self.do_state[self.cur_state](self)
-        #if len(self.event_que) > 0:
-         #   event = self.event_que.pop()
-          #  self.change_state(next_state_table[self.cur_state][event])
 
     def draw(self):
-        self.draw_state[self.cur_state](self)
+        self.state.draw(self)
 
-    def handle_event(self, event):
-        if (event.type, event.key) in key_event_table:
-            key_event = key_event_table[(event.type, event.key)]
+    def update(self):
+        self.state.update(self)
+
+
+    def handle_event(self, e):
+        if e.type == SDL_MOUSEMOTION:
+            self.MX=e.x
+            self.MY=e.y
+            if e.x > self.x:
+                self.dir = 1
+            else:
+                self.dir = 0
+
+        if (e.type, e.key) in key_event_table:
+            key_event = key_event_table[(e.type, e.key)]
+            if key_event == SPACE_DOWN or key_event == ENTER_DOWN:
+                self.fire_ball(key_event == ENTER_DOWN)
+                if self.state == SleepState:
+                    self.set_state(IdleState)
+                return
             if key_event == RIGHT_DOWN:
-                self.velocity += 1
+                self.dx += self.speed
+                if self.dx > 0: self.dir = 1
             elif key_event == LEFT_DOWN:
-                self.velocity -= 1
+                self.dx -= self.speed
+                if self.dx < 0: self.dir = 0
             elif key_event == RIGHT_UP:
-                self.velocity -= 1
+                self.dx -= self.speed
+                if self.dx < 0: self.dir = 0
             elif key_event == LEFT_UP:
-                self.velocity += 1
-            self.add_event(key_event)
-        
+                self.dx += self.speed
+                if self.dx > 0: self.dir = 1
+
+            self.set_state(IdleState if self.dx == 0 else RunState)
+                  # print(self.dx, self.dir)
+    def set_state(self, state):
+        if self.state == state: return
+
+        if self.state and self.state.exit:
+            self.state.exit(self)
+
+
+        self.state = state
+
+        if self.state.enter:
+            self.state.enter(self)
+    def fire_ball(self, big):
+            distance = math.sqrt((self.MX-self.x)*(self.MX-self.x)+(self.MY-self.y)*(self.MY-self.y))
+
+            mag = 1.5 if self.dir == 1 else -1.5
+            mag *= distance*0.0015
+            ballSpeed = mag * self.speed + self.dx*math.fabs((self.MY-self.y)/distance)
+
+            ySpeed = 2 * self.speed * (1 + distance*0.0015)*math.fabs((self.MX-self.x)/distance)
+            if big: ySpeed *= 0.75
+            ball = Ball(big, self.x, self.y + 70, ballSpeed, ySpeed)
+            game_world.add_object(ball, game_world.layer_obstacle)

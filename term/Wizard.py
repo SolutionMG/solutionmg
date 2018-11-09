@@ -82,7 +82,6 @@ class Wizard:  # 마법사 class
                             self.life -= 1
                         elif self.lifecheck == True:
                             pass
-                    FlyScene.obstacleManager.obstacles.remove(i)
             if type(i) == BonusObject.Bonusobject:
                 if (self.wx > i.yx - 5 and self.wx < i.yx + 5) and (self.wy > i.yy - 50 and self.wy < i.yy + 50): # 보너스 오브젝트 충돌체크
                     self.drawscore = True
