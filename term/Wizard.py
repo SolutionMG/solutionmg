@@ -90,7 +90,7 @@ class Wizard:  # 마법사 class
                     self.score2 += self.score
                     FlyScene.obstacleManager.obstacles.remove(i)
             if type(i) == Item.ITEM:
-                if (self.wx > i.ix - 5 and self.wx < i.ix + 5) and (self. wx > i.iy -30 and self.wy < i.iy - 10):
+                if (self.wx > i.ix - 5 and self.wx < i.ix + 5) and (self. wy > i.iy -50 and self.wy <= i.iy + 50 ):
                     if self. lifecheck == False:
                         self.lifecheck = True
                         if(self.life < 3):

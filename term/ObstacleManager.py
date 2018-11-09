@@ -36,8 +36,6 @@ pattern = [(1, 0, 0), (2, 0, 0), (3, 0, 0),
            (1, 2, 3), (1, 3, 2), (2, 1, 3),
            (4, 0, 0), (0, 4, 0), (0, 0, 4),
            (4, 0, 0), (0, 4, 0), (0, 0, 4),
-           (4, 0, 0), (0, 4, 0), (0, 0, 4),
-           (4, 0, 0), (0, 4, 0), (0, 0, 4),
            (2, 3, 1), (3, 1, 2), (3, 2, 1),
            (2, 3, 1), (3, 1, 2), (3, 2, 1)] #패턴 조절하기
 curPattern = None
@@ -51,9 +49,9 @@ class ObstacleManager:
         pass
 
     def update(self):
-        if self.Downspeed>1.5:
+        if self.Downspeed>1.2:
             self.level+=1
-        if self.level>1000:
+        if self.level>600:
             self.Downspeed -= 0.1
             self.level=0
         if get_time() - self.oldCreatedTime > self.Downspeed:
