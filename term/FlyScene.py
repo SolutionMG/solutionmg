@@ -6,7 +6,6 @@ import threading
 import Back
 import Wizard
 import ObstacleManager
-
 score = 0
 obstacleManager = None
 
@@ -28,11 +27,10 @@ def handle_events(): #특수 버튼
 
 
 def enter():
-    global wizards, backs, obstacleManager
+    global wizards, backs, obstacleManager, bonus
     wizards = Wizard.Wizard()
     backs= Back.Back()
     obstacleManager = ObstacleManager.ObstacleManager()
-
 def draw():
     global backs, wizards, obstacleManager
     clear_canvas()
