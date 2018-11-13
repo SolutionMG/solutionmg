@@ -49,7 +49,7 @@ class ObstacleManager:
         pass
 
     def update(self):
-        if self.Downspeed>1.2:
+        if self.Downspeed>1.1:
             self.level+=1
         if self.level>600:
             self.Downspeed -= 0.1

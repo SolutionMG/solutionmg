@@ -15,8 +15,8 @@ class Wizard:  # 마법사 class
         if Wizard.image == None:
             Wizard.image = load_image('Wizard.png')
         global collapse
-        self.font = Font("정10.ttf", 50)
-        self.scorefont = Font("정10.ttf", 30)
+        self.font = Font("origa_m_p.ttf", 30)
+        self.scorefont = Font("origa_m_p.ttf", 30)
         self.state = 2
         self.count = 0
         self.wx = 400
