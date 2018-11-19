@@ -31,15 +31,21 @@ class Wizard:  # 마법사 class
         self.score2 = 0  # 축적 score
         self.scoretime = 0
         self.drawscore = False
-
+        self.plus=0
+        self.plustime=0
     def draw(self):
         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.wx, self.wy)
-        self.font.draw(650, 550, str(int(get_time() * 10 + self.score2)) + "M", (255, 255, 0))
+        self.font.draw(650, 550, str( (int)(self.plus + self.score2)) + "M", (255, 255, 0))
         if self.drawscore == True:
             self.scorefont.draw(650, 500, "+" + str(self.score), (255, 255, 0))
 
     def update(self):
         self.time += 1
+        self.plustime += 1
+        if self.plustime>70:
+            self.plus+=1
+            self.plustime=0
+
         if self.time > 15:
             self.frame = (self.frame + 1) % 8
             self.time = 0

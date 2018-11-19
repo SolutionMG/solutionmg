@@ -1,12 +1,16 @@
 from pico2d import *
 import game_framework
 import FlyScene
+import Wizard
+import ObstacleManager
+
 
 
 def enter():
-    global image
+    global image, wizards, obstacleManager
     image = load_image('title.png')
-
+    wizards = Wizard.Wizard()
+    obstacleManager = ObstacleManager.ObstacleManager()
 
 def exit():
     global image
@@ -24,6 +28,7 @@ def update():
 
 
 def handle_events():
+    global wizards, obstacleManager
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -32,6 +37,9 @@ def handle_events():
             if event.key == SDLK_ESCAPE:
                 game_framework.quit()
             elif event.key == SDLK_SPACE:
+                obstacleManager.Downspeed = 2
+                wizards.life = 3
+                wizards.score2 = 0
                 game_framework.push_state(FlyScene)
 
 
