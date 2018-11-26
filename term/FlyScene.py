@@ -12,7 +12,7 @@ MenuState=0 # 0- Menu바 안불러옴 1-아무것도 안누르고 안댄 상태 
 def handle_events(): #특수 버튼
     global wizards
     global move,MenuState,gamestate
-    global obstacleManager,NowLevel
+    global obstacleManager, NowDownspeed, NowPlusTime
     events=get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -20,12 +20,11 @@ def handle_events(): #특수 버튼
         elif e.type == SDL_KEYDOWN:
             if gamestate==1 and e.key == SDLK_ESCAPE:
                 game_framework.pop_state()
-
             if gamestate==0 and e.key == SDLK_ESCAPE:
                 MenuState=1
-                obstacleManager.Now=obstacleManager.Downspeed
+                NowDownspeed=obstacleManager.Downspeed
+                NowPlusTime=wizards.plustime
                 obstacleManager.Downspeed=0
-                NowLevel=obstacleManager.level
                 wizards.plustime=0
 
             if (wizards.count == 0):
@@ -44,8 +43,8 @@ def handle_events(): #특수 버튼
 
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 3:
                 MenuState = 0
-                obstacleManager.Downspeed = obstacleManager.Now
-                obstacleManager.level=NowLevel
+                wizards.plustime=NowPlusTime
+                obstacleManager.Downspeed=NowDownspeed
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 2:
                 MenuState = 0
                 game_framework.pop_state()
@@ -90,8 +89,7 @@ def draw():
         Exit_Button.draw(400, 300 )
         Back_Button = load_image('Back1.png')
         Back_Button.draw(400, 150)
-        obstacleManager.Downspeed = 0
-        wizards.plustime = 0
+
     elif (MenuState == 2):  # Exit눌림
         Menu = load_image('Menu.png')
         Menu.draw(400, 270)
@@ -99,8 +97,6 @@ def draw():
         Exit_Button.draw(400, 300)
         Back_Button = load_image('Back1.png')
         Back_Button.draw(400, 150)
-        obstacleManager.Downspeed = 0
-        wizards.plustime = 0
 
     elif (MenuState == 3):  # Back 눌림
         Menu = load_image('Menu.png')
@@ -109,17 +105,15 @@ def draw():
         Exit_Button.draw(400, 300)
         Back_Button = load_image('Back2.png')
         Back_Button.draw(400, 150)
-        obstacleManager.Downspeed = 0
-        wizards.plustime = 0
 
     update_canvas()
 
 def update():
-    global wizards, obstacleManager,MenuState
-    if(MenuState>0):
+    global wizards, obstacleManager, MenuState
+    if MenuState>0:
         obstacleManager.Downspeed = 0
         wizards.plustime = 0
-        obstacleManager.level=0
+
     wizards.update()
     obstacleManager.update()
 

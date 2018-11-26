@@ -47,6 +47,7 @@ class ObstacleManager:
         self.Downspeed=2
         self.Now=0
         self.level=0
+        self.Menu=0
         pass
 
     def update(self):
