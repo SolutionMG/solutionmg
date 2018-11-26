@@ -50,27 +50,28 @@ class ObstacleManager:
         pass
 
     def update(self):
-        if self.Downspeed>1.2:
-            self.level+=1
-        if self.level>600:
-            self.Downspeed -= 0.1
-            self.level=0
-        if self.Downspeed>0:
-            if get_time() - self.oldCreatedTime > self.Downspeed:
-                self.oldCreatedTime = get_time()
-                patternNum = random.randint(0, len(pattern) - 1)
-                for i in range(0, 3):
-                    if pattern[patternNum][i] == 1:
-                        self.obstacles.append(ObstacleRed.Obstaclered(i+1))
-                    elif pattern[patternNum][i] == 2:
-                        self.obstacles.append(ObstacleBlue.Obstacleblue(i+1))
-                    elif pattern[patternNum][i] == 3:
-                        self.obstacles.append(BonusObject.Bonusobject(i+1))
-                    elif pattern[patternNum][i] == 4:
-                        self.obstacles.append(Item.ITEM(i+1))
-            for i in self.obstacles:
-                i.update()
-            pass
+        if Wizard.Wizard().life >0:
+            if self.Downspeed>1.2:
+                self.level+=1
+            if self.level>600:
+                self.Downspeed -= 0.1
+                self.level=0
+            if self.Downspeed>0:
+                if get_time() - self.oldCreatedTime > self.Downspeed:
+                    self.oldCreatedTime = get_time()
+                    patternNum = random.randint(0, len(pattern) - 1)
+                    for i in range(0, 3):
+                        if pattern[patternNum][i] == 1:
+                            self.obstacles.append(ObstacleRed.Obstaclered(i+1))
+                        elif pattern[patternNum][i] == 2:
+                            self.obstacles.append(ObstacleBlue.Obstacleblue(i+1))
+                        elif pattern[patternNum][i] == 3:
+                            self.obstacles.append(BonusObject.Bonusobject(i+1))
+                        elif pattern[patternNum][i] == 4:
+                            self.obstacles.append(Item.ITEM(i+1))
+                for i in self.obstacles:
+                    i.update()
+                pass
 
     def draw(self):
         for i in self.obstacles:

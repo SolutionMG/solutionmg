@@ -11,17 +11,21 @@ obstacleManager = None
 MenuState=0 # 0- Menu바 안불러옴 1-아무것도 안누르고 안댄 상태 2- 위에 댄상태 3- 아래 댄상태
 def handle_events(): #특수 버튼
     global wizards
-    global move,MenuState
-    global obstacleManager
+    global move,MenuState,gamestate
+    global obstacleManager,NowLevel
     events=get_events()
     for e in events:
         if e.type == SDL_QUIT:
             game_framework.quit()
         elif e.type == SDL_KEYDOWN:
-            if e.key == SDLK_ESCAPE:
+            if gamestate==1 and e.key == SDLK_ESCAPE:
+                game_framework.pop_state()
+
+            if gamestate==0 and e.key == SDLK_ESCAPE:
                 MenuState=1
                 obstacleManager.Now=obstacleManager.Downspeed
                 obstacleManager.Downspeed=0
+                NowLevel=obstacleManager.level
                 wizards.plustime=0
 
             if (wizards.count == 0):
@@ -41,6 +45,7 @@ def handle_events(): #특수 버튼
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 3:
                 MenuState = 0
                 obstacleManager.Downspeed = obstacleManager.Now
+                obstacleManager.level=NowLevel
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 2:
                 MenuState = 0
                 game_framework.pop_state()
@@ -51,28 +56,33 @@ def enter():
     backs= Back.Back()
     obstacleManager = ObstacleManager.ObstacleManager()
 def draw():
-    global backs, wizards, obstacleManager,MenuState
+    global backs, wizards, obstacleManager,MenuState,gamestate
+    font = Font("정10.ttf", 40)
     clear_canvas()
     backs.draw()
     wizards.draw()
     obstacleManager.draw()
 
     if (wizards.life == 3):
-        LifeImage = load_image('LIFEx3.png')
+        LifeImage = load_image('Lifex3.png')
         LifeImage.draw(150, 550)
-
+        gamestate=0
     elif (wizards.life == 2):
-        LifeImage = load_image('LIFEx2.png')
+        LifeImage = load_image('Lifex2.png')
         LifeImage.draw(150, 550)
-
+        gamestate=0
     elif(wizards.life==1):
-        LifeImage = load_image('LIFEx1.png')
+        LifeImage = load_image('Lifex1.png')
         LifeImage.draw(150, 550)
+        gamestate=0
     elif(wizards.life==0):
-        LifeImage=load_image('LIFEx0.png')
-        LifeImage.dtaw(150,550)
-    else:
-        pass
+        #LifeImage = load_image('Lifex0.png')
+        #LifeImage.dtaw(150,550)
+        gameover = load_image('gameover.png')
+        gameover.draw(400,300)
+        font.draw(300,300,"Score: " + str( (int)(wizards.plus + wizards.score2)) + "M", (255, 255, 0))
+        gamestate=1
+
     if (MenuState == 1):  # 아무것도 안눌림
         Menu = load_image('Menu.png')
         Menu.draw(400, 270)
@@ -105,7 +115,11 @@ def draw():
     update_canvas()
 
 def update():
-    global wizards, obstacleManager
+    global wizards, obstacleManager,MenuState
+    if(MenuState>0):
+        obstacleManager.Downspeed = 0
+        wizards.plustime = 0
+        obstacleManager.level=0
     wizards.update()
     obstacleManager.update()
 
