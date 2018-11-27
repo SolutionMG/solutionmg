@@ -82,7 +82,7 @@ class Wizard:  # 마법사 class
                         if self.lifecheck == False:
                             self.lifecheck = True
                             self.life -= 1
-                            self.redbgm.set_volume(32)
+                            self.redbgm.set_volume(64)
                             self.redbgm.play(1)
                         elif self.lifecheck == True:
                             pass
@@ -93,7 +93,7 @@ class Wizard:  # 마법사 class
                             if self.lifecheck == False:
                                 self.lifecheck = True
                                 self.life -= 1
-                                self.bluebgm.set_volume(32)
+                                self.bluebgm.set_volume(64)
                                 self.bluebgm.play(1)
                                 FlyScene.obstacleManager.obstacles.remove(i)
                             elif self.lifecheck == True:
@@ -114,7 +114,7 @@ class Wizard:  # 마법사 class
                             self.lifecheck = True
                             if(self.life < 3):
                                 self.life +=1
-                            self.potion.set_volume(32)
+                            self.potion.set_volume(64)
                             self.potion.play(1)
                         elif self.lifecheck == True:
                             pass
