@@ -50,10 +50,14 @@ def handle_events(): #특수 버튼
                 game_framework.pop_state()
 
 def enter():
-    global wizards, backs, obstacleManager, bonus
+    global wizards, backs, obstacleManager, bonus, back_bgm2
     wizards = Wizard.Wizard()
     backs= Back.Back()
     obstacleManager = ObstacleManager.ObstacleManager()
+    back_bgm2=load_music('start.mp3')
+    back_bgm2.set_volume(64)
+    back_bgm2.repeat_play()
+
 def draw():
     global backs, wizards, obstacleManager,MenuState,gamestate
     font = Font("정10.ttf", 40)

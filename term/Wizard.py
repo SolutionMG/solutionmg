@@ -10,7 +10,6 @@ import random
 
 class Wizard:  # 마법사 class
     image = None
-
     def __init__(self):
         if Wizard.image == None:
             Wizard.image = load_image('Wizard.png')
@@ -19,6 +18,9 @@ class Wizard:  # 마법사 class
         self.scorefont = Font("origa_m_p.ttf", 30)
         self.state = 2
         self.count = 0
+        self.redbgm = load_wav('fire.wav')
+        self.bluebgm = load_wav('wind.wav')
+        self.yellowbgm = load_wav('coin.wav')
         self.wx = 400   #wizard x좌표
         self.wy = 90    #wizard y좌표
         self.frame = 0
@@ -79,6 +81,8 @@ class Wizard:  # 마법사 class
                         if self.lifecheck == False:
                             self.lifecheck = True
                             self.life -= 1
+                            self.redbgm.set_volume(32)
+                            self.redbgm.play(1)
                         elif self.lifecheck == True:
                             pass
                         FlyScene.obstacleManager.obstacles.remove(i)
@@ -88,14 +92,20 @@ class Wizard:  # 마법사 class
                             if self.lifecheck == False:
                                 self.lifecheck = True
                                 self.life -= 1
+                                self.bluebgm.set_volume(32)
+                                self.bluebgm.play(1)
+                                FlyScene.obstacleManager.obstacles.remove(i)
                             elif self.lifecheck == True:
                                 pass
+
                 if type(i) == BonusObject.Bonusobject:
                     if (self.wx > i.yx - 5 and self.wx < i.yx + 5) and (self.wy > i.yy - 50 and self.wy < i.yy + 50): # 보너스 오브젝트 충돌체크
                         self.drawscore = True
                         self.scoretime = 0
                         self.score = random.randint(2, 10)
                         self.score2 += self.score
+                        self.yellowbgm.set_volume(32)
+                        self.yellowbgm.play(1)
                         FlyScene.obstacleManager.obstacles.remove(i)
                 if type(i) == Item.ITEM:
                     if (self.wx > i.ix - 5 and self.wx < i.ix + 5) and (self. wy > i.iy -50 and self.wy <= i.iy + 50 ):

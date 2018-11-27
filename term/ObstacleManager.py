@@ -75,6 +75,7 @@ class ObstacleManager:
                 pass
 
     def draw(self):
-        for i in self.obstacles:
-            i.draw()
+        if Wizard.Wizard().life > 0 and self.Downspeed>0:
+            for i in self.obstacles:
+                i.draw()
         pass
