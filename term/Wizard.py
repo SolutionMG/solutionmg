@@ -21,6 +21,7 @@ class Wizard:  # 마법사 class
         self.redbgm = load_wav('fire.wav')
         self.bluebgm = load_wav('wind.wav')
         self.yellowbgm = load_wav('coin.wav')
+        self.potion = load_wav('potion.wav')
         self.wx = 400   #wizard x좌표
         self.wy = 90    #wizard y좌표
         self.frame = 0
@@ -113,6 +114,8 @@ class Wizard:  # 마법사 class
                             self.lifecheck = True
                             if(self.life < 3):
                                 self.life +=1
+                            self.potion.set_volume(32)
+                            self.potion.play(1)
                         elif self.lifecheck == True:
                             pass
                         FlyScene.obstacleManager.obstacles.remove(i)
