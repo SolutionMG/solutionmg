@@ -39,7 +39,7 @@ wav_item = None
 gameState = GAMESTATE_READY
 
 def enter():
-    global player, life, scoreLabel
+    global player, life, scoreLabel, nameLabel
     bg = Background()
     game_world.add_object(bg, game_world.layer_bg)
     player = Player()
@@ -52,6 +52,10 @@ def enter():
     label.color = (255, 127, 127)
     ui.labels.append(label)
     scoreLabel = label
+    label2 = ui.Label("KimJiEun", 15, 30, 30, ui.FONT_2)
+    label2.color = (255,0,255)
+    ui.labels.append(label2)
+    nameLabel=label2
 
     global highscore
     highscore = Highscore()
