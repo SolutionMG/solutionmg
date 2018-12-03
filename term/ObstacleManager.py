@@ -48,10 +48,11 @@ class ObstacleManager:
         self.Now=0
         self.level=0
         self.Menu=0
+        self.wizard=Wizard.Wizard()
         pass
 
     def update(self):
-        if Wizard.Wizard().life >0:
+        if self.wizard.life >0:
             if self.Downspeed>1.2:
                 self.level+=1
             if self.level>600:
@@ -75,7 +76,7 @@ class ObstacleManager:
                 pass
 
     def draw(self):
-        if Wizard.Wizard().life > 0 and self.Downspeed>0:
+        if self.wizard.life > 0 and self.Downspeed>0:
             for i in self.obstacles:
                 i.draw()
         pass
