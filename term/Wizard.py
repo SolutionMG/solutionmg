@@ -36,7 +36,7 @@ class Wizard:  # 마법사 class
         self.drawscore = False
         self.plus=0
         self.plustime=0
-        self.Menu=0
+
     def draw(self):
         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.wx, self.wy)
         self.font.draw(650, 550, str( (int)(self.plus + self.score2)) + "M", (255, 255, 0))

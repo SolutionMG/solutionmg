@@ -22,10 +22,9 @@ def handle_events(): #특수 버튼
                 game_framework.pop_state()
             if gamestate==0 and e.key == SDLK_ESCAPE:
                 MenuState=1
-                NowDownspeed=obstacleManager.Downspeed
-                NowPlusTime=wizards.plustime
-                obstacleManager.Downspeed=0
-                wizards.plustime=0
+                obstacleManager.Menu=1
+                #NowPlusTime=wizards.plustime
+                #wizards.plustime=0
 
             if (wizards.count == 0):
                 if e.key == SDLK_LEFT:
@@ -42,11 +41,13 @@ def handle_events(): #특수 버튼
                     MenuState = 1
 
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 3:
+                #wizards.plustime = NowPlusTime
+                #obstacleManager.Downspeed = NowDownspeed
                 MenuState = 0
-                wizards.plustime=NowPlusTime
-                obstacleManager.Downspeed=NowDownspeed
+                obstacleManager.Menu=0
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 2:
                 MenuState = 0
+                obstacleManager.Menu=0
                 game_framework.pop_state()
 
 def enter():
@@ -114,21 +115,15 @@ def draw():
 
 def update():
     global wizards, obstacleManager, MenuState
-    if MenuState>0:
-        obstacleManager.Downspeed = 0
-        wizards.plustime = 0
-
-    wizards.update()
-    obstacleManager.update()
-
-#fill here
-#def scoreTimer():
-#    global score, scoretime
-#    score=0
-#    score+=1
-#    scoretime = threading.Timer(1, scoreTimer)
-#    scoretime.start()
-    #scoretime.cancel() -> kill타이머
+   # if MenuState>0:
+   #     obstacleManager.Downspeed = 0
+   #     wizards.plustime = 0
+   # elif MenuState == 0:
+   #     wizards.update()
+   #     obstacleManager.update()
+    if MenuState == 0:
+        wizards.update()
+        obstacleManager.update()
 
 def exit():
     pass
