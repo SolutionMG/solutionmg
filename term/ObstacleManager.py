@@ -53,9 +53,9 @@ class ObstacleManager:
 
     def update(self):
         if self.wizard.life >0:
-            if self.Downspeed>1.2:
+            if self.Downspeed>1.1:
                 self.level+=1
-            if self.level>600:
+            if self.level>300:
                 self.Downspeed -= 0.1
                 self.level=0
             if self.Downspeed>0:
@@ -73,7 +73,7 @@ class ObstacleManager:
                             self.obstacles.append(Item.ITEM(i+1))
                 for i in self.obstacles:
                     i.update()
-                pass
+            pass
 
     def draw(self):
         if self.wizard.life > 0 and self.Downspeed>0:

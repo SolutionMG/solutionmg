@@ -5,13 +5,12 @@ import Wizard
 import ObstacleManager
 
 
-
 def enter():
     global image, wizards, obstacleManager, back_bgm
     image = load_image('title.png')
     wizards = Wizard.Wizard()
     obstacleManager = ObstacleManager.ObstacleManager()
-    back_bgm = load_music('물방울.mp3')
+    back_bgm = load_music('start.mp3')
     back_bgm.set_volume(64)
     back_bgm.repeat_play()
 
