@@ -6,11 +6,11 @@ import threading
 import Back
 import Wizard
 import ObstacleManager
-score = 0
+
 obstacleManager = None
 MenuState=0 # 0- Menu바 안불러옴 1-아무것도 안누르고 안댄 상태 2- 위에 댄상태 3- 아래 댄상태
 def handle_events(): #특수 버튼
-    global wizards
+    global wizard
     global move,MenuState,gamestate
     global obstacleManager, NowDownspeed, NowPlusTime
     events=get_events()
@@ -23,14 +23,14 @@ def handle_events(): #특수 버튼
             if gamestate==0 and e.key == SDLK_ESCAPE:
                 MenuState=1
                 obstacleManager.Menu=1
-                #NowPlusTime=wizards.plustime
-                #wizards.plustime=0
+                #NowPlusTime=wizard.plustime
+                #wizard.plustime=0
 
-            if (wizards.count == 0):
+            if (wizard.count == 0):
                 if e.key == SDLK_LEFT:
-                    wizards.state = 0
+                    wizard.state = 0
                 if e.key == SDLK_RIGHT:
-                    wizards.state = 1
+                    wizard.state = 1
         if MenuState>0:
              if e.type == SDL_MOUSEMOTION:
                 if e.x > 400 - 100 and e.x < 400 + 100 and 600 - e.y > 150 - 50 and 600 - e.y < 150 + 50: #Back
@@ -41,7 +41,7 @@ def handle_events(): #특수 버튼
                     MenuState = 1
 
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 3:
-                #wizards.plustime = NowPlusTime
+                #wizard.plustime = NowPlusTime
                 #obstacleManager.Downspeed = NowDownspeed
                 MenuState = 0
                 obstacleManager.Menu=0
@@ -51,8 +51,8 @@ def handle_events(): #특수 버튼
                 game_framework.pop_state()
 
 def enter():
-    global wizards, backs, obstacleManager, bonus, back_bgm2
-    wizards = Wizard.Wizard()
+    global wizard, backs, obstacleManager, bonus, back_bgm2
+    wizard = Wizard.Wizard()
     backs= Back.Back()
     obstacleManager = ObstacleManager.ObstacleManager()
     back_bgm2=load_music('start.mp3')
@@ -60,31 +60,31 @@ def enter():
     back_bgm2.repeat_play()
 
 def draw():
-    global backs, wizards, obstacleManager,MenuState,gamestate
+    global backs, wizard, obstacleManager,MenuState,gamestate
     font = Font("정10.ttf", 40)
     clear_canvas()
     backs.draw()
-    wizards.draw()
+    wizard.draw()
     obstacleManager.draw()
 
-    if (wizards.life == 3):
+    if (wizard.life == 3):
         LifeImage = load_image('Lifex3.png')
         LifeImage.draw(150, 550)
         gamestate=0
-    elif (wizards.life == 2):
+    elif (wizard.life == 2):
         LifeImage = load_image('Lifex2.png')
         LifeImage.draw(150, 550)
         gamestate=0
-    elif(wizards.life==1):
+    elif(wizard.life==1):
         LifeImage = load_image('Lifex1.png')
         LifeImage.draw(150, 550)
         gamestate=0
-    elif(wizards.life==0):
+    elif(wizard.life==0):
         #LifeImage = load_image('Lifex0.png')
         #LifeImage.dtaw(150,550)
         gameover = load_image('gameover.png')
         gameover.draw(400,300)
-        font.draw(300,300,"Score: " + str( (int)(wizards.plus + wizards.score2)) + "M", (255, 255, 0))
+        font.draw(300,300,"Score: " + str( (int)(wizard.plus + wizard.score2)) + "M", (255, 255, 0))
         gamestate=1
 
     if (MenuState == 1):  # 아무것도 안눌림
@@ -114,15 +114,15 @@ def draw():
     update_canvas()
 
 def update():
-    global wizards, obstacleManager, MenuState
+    global wizard, obstacleManager, MenuState
    # if MenuState>0:
    #     obstacleManager.Downspeed = 0
-   #     wizards.plustime = 0
+   #     wizard.plustime = 0
    # elif MenuState == 0:
-   #     wizards.update()
+   #     wizard.update()
    #     obstacleManager.update()
     if MenuState == 0:
-        wizards.update()
+        wizard.update()
         obstacleManager.update()
 
 def exit():
