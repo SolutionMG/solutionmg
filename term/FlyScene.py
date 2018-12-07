@@ -12,7 +12,7 @@ MenuState=0 # 0- Menu바 안불러옴 1-아무것도 안누르고 안댄 상태 
 def handle_events(): #특수 버튼
     global wizard
     global move,MenuState,gamestate
-    global obstacleManager, NowDownspeed, NowPlusTime
+    global obstacleManager
     events=get_events()
     for e in events:
         if e.type == SDL_QUIT:
@@ -23,8 +23,6 @@ def handle_events(): #특수 버튼
             if gamestate==0 and e.key == SDLK_ESCAPE:
                 MenuState=1
                 obstacleManager.Menu=1
-                #NowPlusTime=wizard.plustime
-                #wizard.plustime=0
 
             if (wizard.count == 0):
                 if e.key == SDLK_LEFT:
@@ -41,8 +39,6 @@ def handle_events(): #특수 버튼
                     MenuState = 1
 
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 3:
-                #wizard.plustime = NowPlusTime
-                #obstacleManager.Downspeed = NowDownspeed
                 MenuState = 0
                 obstacleManager.Menu=0
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 2:
@@ -115,12 +111,6 @@ def draw():
 
 def update():
     global wizard, obstacleManager, MenuState
-   # if MenuState>0:
-   #     obstacleManager.Downspeed = 0
-   #     wizard.plustime = 0
-   # elif MenuState == 0:
-   #     wizard.update()
-   #     obstacleManager.update()
     if MenuState == 0:
         wizard.update()
         obstacleManager.update()
