@@ -9,20 +9,24 @@ import ObstacleManager
 
 obstacleManager = None
 MenuState=0 # 0- Menu바 안불러옴 1-아무것도 안누르고 안댄 상태 2- 위에 댄상태 3- 아래 댄상태
+time_menu_entered = None
 def handle_events(): #특수 버튼
     global wizard
     global move,MenuState,gamestate
     global obstacleManager
+    global time_menu_entered
     events=get_events()
     for e in events:
         if e.type == SDL_QUIT:
             game_framework.quit()
         elif e.type == SDL_KEYDOWN:
-            if gamestate==1 and e.key == SDLK_ESCAPE:
+            if gamestate==1 and e.key == SDLK_ESCAPE: #게임이 끝났을 때
                 game_framework.pop_state()
-            if gamestate==0 and e.key == SDLK_ESCAPE:
+            if gamestate==0 and e.key == SDLK_ESCAPE: #게임 중일 때 -> Menu불러옴
                 MenuState=1
-                obstacleManager.Menu=1
+                time_menu_entered = get_time()
+
+
 
             if (wizard.count == 0):
                 if e.key == SDLK_LEFT:
@@ -40,10 +44,9 @@ def handle_events(): #특수 버튼
 
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 3:
                 MenuState = 0
-                obstacleManager.Menu=0
+                obstacleManager.oldCreatedTime += get_time() - time_menu_entered
         if e.type == SDL_MOUSEBUTTONDOWN and MenuState == 2:
                 MenuState = 0
-                obstacleManager.Menu=0
                 game_framework.pop_state()
 
 def enter():
