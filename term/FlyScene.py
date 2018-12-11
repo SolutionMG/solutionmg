@@ -26,8 +26,6 @@ def handle_events(): #특수 버튼
                 MenuState=1
                 time_menu_entered = get_time()
 
-
-
             if (wizard.count == 0):
                 if e.key == SDLK_LEFT:
                     wizard.state = 0
